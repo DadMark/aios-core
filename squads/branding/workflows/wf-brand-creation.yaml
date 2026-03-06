@@ -1,0 +1,266 @@
+# ============================================================================
+# Workflow: Brand Creation
+# Squad: branding
+# Version: 1.0.0
+# Purpose: End-to-end brand creation from briefing to integrated brand system
+# ============================================================================
+
+workflow:
+  id: wf-brand-creation
+  name: "Brand Creation Workflow"
+  version: "1.0.0"
+  description: |
+    Full 8-phase brand creation workflow modeled after a top-tier branding agency.
+    Sequential strategy phases (1-4) feed into parallel creative execution (5-7),
+    culminating in integration and coherence validation (8).
+
+  trigger: "*new-brand"
+  entry_agent: marty-neumeier
+  estimated_duration: "2-4 hours"
+
+# ----------------------------------------------------------------------------
+# PHASES
+# ----------------------------------------------------------------------------
+
+phases:
+
+  # --- PHASE 1: Intake + ZAG Test ---
+  - id: phase_1
+    name: "Intake Briefing & ZAG Test"
+    agent: marty-neumeier
+    task: tasks/new-brand.md
+    command: "*new-brand"
+    description: |
+      Collect client briefing data through structured intake questions.
+      Establish the Onliness Statement. Run the ZAG 17-checkpoint test.
+      Determine if the brand has true differentiation potential.
+    steps:
+      - "Structured intake questionnaire (problem, audience, competition, ambition)"
+      - "Draft Onliness Statement: Our [offering] is the only [category] that [differentiator]"
+      - "Run ZAG 17-checkpoint differentiation test"
+      - "Brand Gap preliminary assessment"
+      - "GO/NO-GO decision based on ZAG score"
+    outputs:
+      - onliness_statement: "string"
+      - zag_score: "number (0-17)"
+      - intake_brief: "structured object"
+      - brand_gap_notes: "string"
+    checkpoint:
+      gate: "ZAG score >= 10/17 AND Onliness Statement validated"
+      veto: "ZAG score < 7 -- brand needs fundamental rethinking"
+
+  # --- PHASE 2: Brand Equity Framework ---
+  - id: phase_2
+    name: "Brand Equity Framework"
+    agent: david-aaker
+    task: tasks/brand-briefing.md
+    command: "*brand-briefing"
+    depends_on: [phase_1]
+    description: |
+      Transform raw briefing into structured Brand Equity Framework.
+      Assess 4 equity dimensions. Define brand identity (core + extended).
+      Establish brand architecture model. Create strategic creative brief.
+    steps:
+      - "Import Onliness Statement and intake brief from Phase 1"
+      - "Assess Brand Equity baseline (Awareness, Quality, Associations, Loyalty)"
+      - "Build Brand Identity System (Core + Extended + Essence)"
+      - "Define Value Proposition (Functional / Emotional / Self-expressive)"
+      - "Determine Brand Architecture model"
+      - "Write Strategic Brand Brief with creative direction guardrails"
+    outputs:
+      - brand_brief: "structured document"
+      - equity_baseline: "4-dimension assessment"
+      - identity_system: "core + extended + essence"
+      - architecture_model: "string"
+    checkpoint:
+      gate: "Brand Brief complete with all sections filled"
+      veto: "Missing Onliness Statement or incomplete equity assessment"
+
+  # --- PHASE 3: Audience Research ---
+  - id: phase_3
+    name: "Audience Archetypes & Consumer Insights"
+    agent: malcolm-gladwell
+    task: tasks/audience-research.md
+    command: "*audience-research"
+    depends_on: [phase_2]
+    description: |
+      Deep audience research using Tipping Point dynamics, Blink perception
+      science, and cultural context mapping. Identify Connectors, Mavens,
+      and Salesmen. Map audience archetypes.
+    steps:
+      - "Import Brand Brief and target audience definition from Phase 2"
+      - "Map audience archetypes (Maven, Connector, Salesman, Outlier, Mainstream)"
+      - "Run Tipping Point analysis (Law of the Few, Stickiness, Context)"
+      - "Perform Blink 2-second perception audit"
+      - "Map cultural context (zeitgeist, counter-culture, tribal identity)"
+      - "Synthesize Consumer Insight Report"
+    outputs:
+      - archetype_map: "audience archetype profiles"
+      - tipping_point_analysis: "3-rule assessment"
+      - blink_audit: "4-layer perception report"
+      - cultural_context: "cultural mapping"
+    checkpoint:
+      gate: "All 5 archetypes mapped, tipping point analyzed"
+      veto: "Research based on assumptions without evidence"
+
+  # --- PHASE 4: Purpose Discovery ---
+  - id: phase_4
+    name: "Golden Circle & Brand Manifesto"
+    agent: simon-sinek
+    task: tasks/find-why.md
+    command: "*find-why"
+    depends_on: [phase_3]
+    description: |
+      Discover the brand's WHY using the Golden Circle framework.
+      Write the Brand Manifesto. Define the Just Cause.
+      The WHY becomes the emotional anchor for all Tier 2 creative work.
+    steps:
+      - "Import audience insights and Brand Brief"
+      - "Guided WHY discovery (story gathering -> theme identification -> draft)"
+      - "Map full Golden Circle: WHY -> HOW -> WHAT"
+      - "Validate WHY (feel test, filter test, tattoo test)"
+      - "Write Brand Manifesto (under 250 words)"
+      - "Define Just Cause for infinite game thinking"
+    outputs:
+      - golden_circle: "WHY / HOW / WHAT definitions"
+      - why_statement: "To [contribution] so that [impact]"
+      - manifesto: "brand manifesto (under 250 words)"
+      - just_cause: "Just Cause statement"
+    checkpoint:
+      gate: "WHY passes 3 validation tests, manifesto under 250 words"
+      veto: "WHY is product-focused instead of belief-focused"
+
+  # --- PHASE 5: Naming (PARALLEL) ---
+  - id: phase_5
+    name: "Brand Naming"
+    agent: alexandra-watkins
+    task: tasks/name-brand.md
+    command: "*name-brand"
+    depends_on: [phase_4]
+    parallel_with: [phase_6, phase_7]
+    description: |
+      Generate, filter, and validate brand name candidates using
+      SMILE/SCRATCH methodology. Present top 3 with full scoring.
+    steps:
+      - "Import Golden Circle, manifesto, audience archetypes"
+      - "Word Storm: 100+ raw associations"
+      - "Generate 30-50 name candidates"
+      - "SMILE filter (score 1-25)"
+      - "SCRATCH filter (eliminate red flags)"
+      - "Domain availability check"
+      - "Present top 3 with full rationale"
+    outputs:
+      - name_candidates_top3: "3 names with SMILE scores and rationale"
+      - word_storm_raw: "100+ associations"
+      - domain_notes: "availability notes"
+    checkpoint:
+      gate: "Top 3 names all score >= 18/25 on SMILE with zero SCRATCH flags"
+      veto: "All candidates have SCRATCH red flags"
+
+  # --- PHASE 6: Visual Identity (PARALLEL) ---
+  - id: phase_6
+    name: "Visual Identity System"
+    agent: paula-scher
+    task: tasks/brand-identity.md
+    command: "*brand-identity"
+    depends_on: [phase_4]
+    parallel_with: [phase_5, phase_7]
+    description: |
+      Design the visual identity system starting with typography,
+      then color, then logo direction. Create a full brand system.
+    steps:
+      - "Import Golden Circle, manifesto, audience archetypes"
+      - "Typography personality mapping -> typeface selection -> hierarchy"
+      - "Color strategy (primary, secondary, neutral, accent)"
+      - "Logo direction (type recommendation + 3 concept directions)"
+      - "Visual brand system compilation"
+      - "Accessibility check (WCAG AA)"
+    outputs:
+      - typography_system: "primary + secondary + hierarchy + rules"
+      - color_palette: "primary + secondary + neutral + accent with hex codes"
+      - logo_direction: "type + 3 concept directions"
+      - brand_system: "complete visual guidelines"
+    checkpoint:
+      gate: "Type system, color palette, logo direction all defined"
+      veto: "Colors fail WCAG AA accessibility"
+
+  # --- PHASE 7: Brand Voice (PARALLEL) ---
+  - id: phase_7
+    name: "Brand Voice & Messaging"
+    agent: ann-handley
+    task: tasks/brand-voice.md
+    command: "*brand-voice"
+    depends_on: [phase_4]
+    parallel_with: [phase_5, phase_6]
+    description: |
+      Define the brand's verbal identity using the VOICE framework.
+      Create messaging hierarchy. Write tagline candidates.
+      Build tone-of-voice guide.
+    steps:
+      - "Import Golden Circle, manifesto, audience archetypes"
+      - "Define VOICE across 5 dimensions (V-O-I-C-E)"
+      - "Create Tone Spectrum for different contexts"
+      - "Build Messaging Hierarchy (promise -> tagline -> pitch -> messages -> proof)"
+      - "Generate and test tagline candidates"
+      - "Write brand writing guidelines"
+    outputs:
+      - voice_framework: "5-dimension VOICE definition"
+      - tone_spectrum: "context-based tone adaptations"
+      - messaging_hierarchy: "full messaging framework"
+      - tagline_top5: "5 tagline candidates with test results"
+    checkpoint:
+      gate: "VOICE complete across 5 dimensions, top 5 taglines tested"
+      veto: "Voice definition uses corporate jargon"
+
+  # --- PHASE 8: Integration & Coherence ---
+  - id: phase_8
+    name: "Brand Integration & Coherence Score"
+    agent: marty-neumeier
+    task: tasks/integrate.md
+    command: "*integrate"
+    depends_on: [phase_5, phase_6, phase_7]
+    description: |
+      The Brand Chief integrates all specialist outputs into a coherent
+      brand system. Validates cross-element coherence. Produces the
+      final Brand Book and coherence score.
+    steps:
+      - "Collect all outputs from Phases 1-7"
+      - "Validate name-visual-voice coherence"
+      - "Run Five Disciplines evaluation"
+      - "Check alignment with Onliness Statement"
+      - "Score brand coherence (0-10)"
+      - "Compile Final Brand Report"
+      - "Identify gaps and recommend next steps"
+    outputs:
+      - coherence_score: "number (0-10)"
+      - five_disciplines_score: "5-dimension evaluation"
+      - brand_report: "comprehensive brand document"
+      - recommendations: "next steps"
+    checkpoint:
+      gate: "Coherence score >= 7.0"
+      veto: "Coherence score < 5.0 -- fundamental misalignment between elements"
+
+# ----------------------------------------------------------------------------
+# COMPLETION CRITERIA
+# ----------------------------------------------------------------------------
+
+completion_criteria:
+  - "Onliness Statement validated (Phase 1)"
+  - "Brand Equity Framework complete (Phase 2)"
+  - "Audience archetypes mapped (Phase 3)"
+  - "Golden Circle and manifesto written (Phase 4)"
+  - "Top 3 name candidates with SMILE >= 18 (Phase 5)"
+  - "Visual identity system with type, color, logo direction (Phase 6)"
+  - "VOICE framework and messaging hierarchy defined (Phase 7)"
+  - "Coherence score >= 7.0 (Phase 8)"
+
+# ----------------------------------------------------------------------------
+# VETO CONDITIONS (workflow-level)
+# ----------------------------------------------------------------------------
+
+veto_conditions:
+  - "Brand has no clear differentiation (ZAG < 7)"
+  - "WHY is product-focused, not belief-focused"
+  - "Name candidates all have SCRATCH red flags"
+  - "Visual system fails accessibility (WCAG AA)"
+  - "Brand elements are fundamentally incoherent (score < 5)"

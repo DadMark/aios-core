@@ -1,0 +1,223 @@
+# =============================================================================
+# Squad: Branding
+# Domain: Brand Strategy & Identity Creation
+# Created: 2026-03-06
+# Version: 1.0.0
+# =============================================================================
+
+squad:
+  name: branding
+  display_name: "Branding Squad"
+  version: "1.0.0"
+  domain: "Brand Strategy & Identity Creation"
+  description: |
+    Squad de branding baseado nos maiores especialistas mundiais em construcao
+    de marcas. Opera como uma agencia real: briefing intake, estrategia,
+    pesquisa, naming, identidade visual, voz e integracao final.
+    Cada agente encarna um expert real com frameworks proprietarios documentados.
+
+  philosophy: |
+    "A brand is not what you say it is. It's what they say it is." -- Marty Neumeier
+    O squad segue um fluxo de agencia: o briefing entra pelo chief, passa pela
+    estrategia e pesquisa, bifurca para as execucoes paralelas (naming, visual,
+    voice), e retorna ao chief para integracao e coerencia final.
+
+  keywords:
+    - branding
+    - brand-strategy
+    - naming
+    - visual-identity
+    - brand-voice
+    - logo
+    - typography
+    - color-palette
+    - brand-equity
+    - purpose
+    - golden-circle
+    - tagline
+    - manifesto
+    - consumer-insights
+    - brand-architecture
+
+  entry_agent: marty-neumeier
+  created_by: "squad-creator"
+  created_at: "2026-03-06"
+
+# ---------------------------------------------------------------------------
+# TIER ARCHITECTURE
+# ---------------------------------------------------------------------------
+
+tiers:
+  tier_0:
+    name: "Brand Chief & Integration"
+    agents:
+      - marty-neumeier
+    purpose: "Intake briefing, ZAG test, orchestrate workflow, integrate final brand"
+
+  tier_1:
+    name: "Strategy & Research"
+    agents:
+      - david-aaker
+      - malcolm-gladwell
+      - simon-sinek
+    purpose: "Brand equity framework, consumer insights, purpose discovery"
+
+  tier_2:
+    name: "Creative Execution"
+    agents:
+      - alexandra-watkins
+      - paula-scher
+      - ann-handley
+    purpose: "Naming, visual identity, brand voice (run in parallel)"
+
+# ---------------------------------------------------------------------------
+# AGENT REGISTRY
+# ---------------------------------------------------------------------------
+
+agents:
+  marty-neumeier:
+    file: agents/marty-neumeier.md
+    tier: 0
+    based_on: "Marty Neumeier"
+    focus: "ZAG, Onliness, Five Disciplines of Brand, Brand Gap"
+    role: "Brand Chief"
+
+  david-aaker:
+    file: agents/david-aaker.md
+    tier: 1
+    based_on: "David Aaker"
+    focus: "Brand Equity Model, Brand Identity Prism, Brand Briefing"
+    role: "Account Director"
+
+  malcolm-gladwell:
+    file: agents/malcolm-gladwell.md
+    tier: 1
+    based_on: "Malcolm Gladwell"
+    focus: "Tipping Point, Blink, Outliers, Consumer Archetypes"
+    role: "Consumer Insights"
+
+  simon-sinek:
+    file: agents/simon-sinek.md
+    tier: 1
+    based_on: "Simon Sinek"
+    focus: "Golden Circle (WHY > HOW > WHAT), Infinite Game, Start With Why"
+    role: "Purpose Strategist"
+
+  alexandra-watkins:
+    file: agents/alexandra-watkins.md
+    tier: 2
+    based_on: "Alexandra Watkins"
+    focus: "SMILE/SCRATCH Test, Brand Naming, Hello My Name Is Awesome"
+    role: "Naming Expert"
+
+  paula-scher:
+    file: agents/paula-scher.md
+    tier: 2
+    based_on: "Paula Scher"
+    focus: "Typography-first design, Brand Systems, Visual Identity"
+    role: "Visual Identity Director"
+
+  ann-handley:
+    file: agents/ann-handley.md
+    tier: 2
+    based_on: "Ann Handley"
+    focus: "VOICE Framework, Brand Voice, Everybody Writes, Content Strategy"
+    role: "Brand Voice Strategist"
+
+# ---------------------------------------------------------------------------
+# WORKFLOW
+# ---------------------------------------------------------------------------
+
+workflow:
+  primary: workflows/wf-brand-creation.yaml
+  trigger: "*new-brand"
+  phases: 8
+  parallel_phases: [5, 6, 7]
+  flow: |
+    Client -> @marty-neumeier *new-brand       (Phase 1: Intake + ZAG test)
+                |
+           @david-aaker *brand-briefing         (Phase 2: Brand Equity Framework)
+                |
+           @malcolm-gladwell *audience-research  (Phase 3: Archetypes + Tipping Point)
+                |
+           @simon-sinek *find-why               (Phase 4: Golden Circle + Manifesto)
+                |
+        +-------+-------+-------+
+        |               |               |
+    @alexandra-watkins  @paula-scher     @ann-handley
+    *name-brand         *brand-identity  *brand-voice
+    (Phase 5)           (Phase 6)        (Phase 7)
+        |               |               |
+        +-------+-------+-------+
+                |
+           @marty-neumeier *integrate   (Phase 8: Coherence Score + Final Report)
+
+# ---------------------------------------------------------------------------
+# HANDOFF MATRIX
+# ---------------------------------------------------------------------------
+
+handoffs:
+  marty-neumeier:
+    routes_to: [david-aaker, malcolm-gladwell, simon-sinek, alexandra-watkins, paula-scher, ann-handley]
+    receives_from: [simon-sinek, alexandra-watkins, paula-scher, ann-handley]
+
+  david-aaker:
+    receives_from: [marty-neumeier]
+    routes_to: [malcolm-gladwell]
+    escalates_to: [marty-neumeier]
+
+  malcolm-gladwell:
+    receives_from: [david-aaker]
+    routes_to: [simon-sinek]
+    escalates_to: [marty-neumeier]
+
+  simon-sinek:
+    receives_from: [malcolm-gladwell]
+    routes_to: [alexandra-watkins, paula-scher, ann-handley]
+    escalates_to: [marty-neumeier]
+
+  alexandra-watkins:
+    receives_from: [simon-sinek]
+    routes_to: [marty-neumeier]
+    collaborates_with: [ann-handley]
+
+  paula-scher:
+    receives_from: [simon-sinek]
+    routes_to: [marty-neumeier]
+    collaborates_with: [alexandra-watkins, ann-handley]
+
+  ann-handley:
+    receives_from: [simon-sinek]
+    routes_to: [marty-neumeier]
+    collaborates_with: [alexandra-watkins, paula-scher]
+
+# ---------------------------------------------------------------------------
+# CROSS-CUTTING CONCERNS
+# ---------------------------------------------------------------------------
+
+cross_cutting:
+  brand_coherence:
+    description: "ALL agents must maintain brand coherence across deliverables"
+    validation: "Marty Neumeier validates coherence in Phase 8 integration"
+
+  onliness_statement:
+    description: "The ZAG Onliness Statement established in Phase 1 is the north star"
+    format: "Our [offering] is the only [category] that [differentiator]"
+
+  quality_standards:
+    min_coherence_score: 7.0
+    voice_dna_required: true
+    thinking_dna_required: true
+
+# ---------------------------------------------------------------------------
+# SETTINGS
+# ---------------------------------------------------------------------------
+
+settings:
+  greeting:
+    level: archetypal
+    show_project_status: true
+
+  activation:
+    prefix: "branding"
+    example: "@branding:marty-neumeier"
