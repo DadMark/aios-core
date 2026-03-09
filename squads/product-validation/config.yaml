@@ -1,0 +1,214 @@
+# ===============================================================================
+# Squad: Product Validation
+# Domain: Product & Technical Artifact Validation
+# Created: 2026-03-06
+# Version: 1.0.0
+# ===============================================================================
+
+squad:
+  name: product-validation
+  display_name: "Product Validation Squad"
+  version: "1.0.0"
+  domain: "Product & Technical Artifact Validation"
+  description: |
+    Squad especialista em validacao shift-left de artefatos de produto: PRDs,
+    stories, specs, decisoes de arquitetura, escopo MVP e prontidao de release.
+    Cada agente e baseado em um expert real cujo framework de pensamento
+    guia a validacao em seu dominio de especialidade.
+
+  philosophy: |
+    "Validate early, validate often, validate right."
+    Inspirado em Steve Jobs: "People think focus means saying yes to the thing
+    you've got to focus on. But that's not what it means at all. It means saying
+    no to the hundred other good ideas."
+    Cada defeito encontrado antes do codigo ser escrito economiza 10x em retrabalho.
+
+  keywords:
+    - product-validation
+    - requirements
+    - story-validation
+    - mvp-scope
+    - risk-assessment
+    - architecture-review
+    - ux-validation
+    - release-readiness
+    - shift-left
+    - quality-gates
+    - pre-implementation
+
+  entry_agent: validation-chief
+  created_by: "squad-creator-pro"
+  created_at: "2026-03-06"
+
+# -------------------------------------------------------------------------------
+# TIER ARCHITECTURE
+# -------------------------------------------------------------------------------
+
+tiers:
+  tier_0:
+    name: "Triage & Orchestration"
+    agents:
+      - validation-chief
+    purpose: "Diagnose validation needs, route to specialist, synthesize cross-cutting reports"
+
+  tier_1:
+    name: "Core Validation"
+    agents:
+      - requirements-analyst
+      - story-validator
+      - scope-guardian
+      - risk-assessor
+    purpose: "Deep validation of product artifacts across core dimensions"
+
+  tier_2:
+    name: "Specialist Validation"
+    agents:
+      - ux-validator
+      - architecture-reviewer
+      - release-readiness
+    purpose: "Cross-cutting validation expertise for UX, architecture, and deployment"
+
+# -------------------------------------------------------------------------------
+# AGENT REGISTRY
+# -------------------------------------------------------------------------------
+
+agents:
+  validation-chief:
+    file: agents/validation-chief.md
+    tier: 0
+    based_on: "Steve Jobs (Product Vision & Quality Obsession)"
+    icon: "\u2728"
+    focus: "Triage, routing, product vision validation, quality obsession"
+
+  requirements-analyst:
+    file: agents/requirements-analyst.md
+    tier: 1
+    based_on: "Marty Cagan (SVPG, Inspired, Empowered)"
+    icon: "\U0001F50D"
+    focus: "PRD validation, requirements quality, product discovery, opportunity assessment"
+
+  story-validator:
+    file: agents/story-validator.md
+    tier: 1
+    based_on: "Jeff Patton (User Story Mapping)"
+    icon: "\U0001F4DC"
+    focus: "Story quality, user journey coherence, AC testability, dependency chains"
+
+  scope-guardian:
+    file: agents/scope-guardian.md
+    tier: 1
+    based_on: "Eric Ries (Lean Startup, The Startup Way)"
+    icon: "\U0001F3AF"
+    focus: "MVP scope boundaries, feature creep prevention, validated learning, build-measure-learn"
+
+  risk-assessor:
+    file: agents/risk-assessor.md
+    tier: 1
+    based_on: "Nassim Nicholas Taleb (Black Swan, Antifragile)"
+    icon: "\u26A0\uFE0F"
+    focus: "Risk analysis, fragility detection, blast radius, tail risk, optionality"
+
+  ux-validator:
+    file: agents/ux-validator.md
+    tier: 2
+    based_on: "Don Norman (Design of Everyday Things)"
+    icon: "\U0001F441\uFE0F"
+    focus: "UX decision validation, usability heuristics, WCAG compliance, affordances"
+
+  architecture-reviewer:
+    file: agents/architecture-reviewer.md
+    tier: 2
+    based_on: "Martin Fowler (Refactoring, Patterns of Enterprise Architecture)"
+    icon: "\U0001F3DB\uFE0F"
+    focus: "Architecture validation, pattern compliance, technical debt, integration patterns"
+
+  release-readiness:
+    file: agents/release-readiness.md
+    tier: 2
+    based_on: "Gene Kim (The Phoenix Project, The DevOps Handbook)"
+    icon: "\U0001F680"
+    focus: "Release readiness, deployment risk, migration safety, flow optimization"
+
+# -------------------------------------------------------------------------------
+# HANDOFF MATRIX
+# -------------------------------------------------------------------------------
+
+handoffs:
+  validation-chief:
+    routes_to: [requirements-analyst, story-validator, scope-guardian, risk-assessor, ux-validator, architecture-reviewer, release-readiness]
+
+  requirements-analyst:
+    collaborates_with: [story-validator, scope-guardian]
+    escalates_to: [validation-chief]
+
+  story-validator:
+    collaborates_with: [requirements-analyst, risk-assessor]
+    escalates_to: [validation-chief]
+
+  scope-guardian:
+    collaborates_with: [requirements-analyst, risk-assessor]
+    escalates_to: [validation-chief]
+
+  risk-assessor:
+    collaborates_with: [scope-guardian, architecture-reviewer, release-readiness]
+    escalates_to: [validation-chief]
+
+  ux-validator:
+    collaborates_with: [story-validator, architecture-reviewer]
+    escalates_to: [validation-chief]
+
+  architecture-reviewer:
+    collaborates_with: [risk-assessor, release-readiness]
+    escalates_to: [validation-chief]
+
+  release-readiness:
+    collaborates_with: [risk-assessor, architecture-reviewer]
+    escalates_to: [validation-chief]
+
+# -------------------------------------------------------------------------------
+# CROSS-CUTTING CONCERNS
+# -------------------------------------------------------------------------------
+
+cross_cutting:
+  aiox_awareness:
+    description: "ALL agents understand AIOX-core architecture and validation workflows"
+    context_files:
+      - ".claude/CLAUDE.md"
+      - ".aiox-core/core-config.yaml"
+      - ".aiox-core/data/entity-registry.yaml"
+
+  validation_framework:
+    description: "Shared scoring and reporting framework"
+    scoring:
+      scale: "1-10"
+      pass_threshold: 7.0
+      dimensions:
+        - completeness
+        - clarity
+        - testability
+        - feasibility
+        - risk_awareness
+    verdicts:
+      - APPROVED
+      - NEEDS_REVISION
+      - BLOCKED
+      - DEFERRED
+
+  quality_standards:
+    min_score: 7.0
+    voice_dna_required: true
+    thinking_dna_required: true
+
+# -------------------------------------------------------------------------------
+# SETTINGS
+# -------------------------------------------------------------------------------
+
+settings:
+  greeting:
+    level: archetypal
+    show_project_status: true
+    show_aiox_context: true
+
+  activation:
+    prefix: "product-validation"
+    example: "@product-validation:validation-chief"

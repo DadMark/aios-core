@@ -1,0 +1,109 @@
+# Validation Dimensions Framework
+# Used by all agents in the Product Validation squad for consistent scoring
+
+scoring:
+  scale: "1-10"
+  pass_threshold: 7.0
+  conditional_threshold: 5.5
+  block_threshold: 4.0
+
+dimensions:
+  requirements:
+    name: "Requirements Quality"
+    specialist: requirements-analyst
+    weight: 2.0
+    criteria:
+      - outcome_focused: "Requirements describe outcomes, not outputs"
+      - evidence_backed: "Evidence from discovery supports each requirement"
+      - testable: "QA can write tests from the requirements"
+      - unambiguous: "Two developers interpret the same way"
+      - necessary: "Removing it breaks the core value proposition"
+      - solution_agnostic: "Describes WHAT not HOW"
+      - traceable: "Traces to FR-*, NFR-*, CON-*, or research"
+
+  stories:
+    name: "Story Quality"
+    specialist: story-validator
+    weight: 2.0
+    criteria:
+      - invest_compliance: "Independent, Negotiable, Valuable, Estimable, Small, Testable"
+      - ac_quality: "ACs are testable, outcome-focused, non-prescriptive"
+      - narrative_coherence: "Connects to user activities and journey"
+      - dependency_clarity: "Dependencies explicit, no cycles"
+      - slicing_quality: "Vertical slices, not horizontal layers"
+
+  scope:
+    name: "MVP Scope"
+    specialist: scope-guardian
+    weight: 1.5
+    criteria:
+      - hypothesis_mapping: "Each feature maps to a testable hypothesis"
+      - complexity_budget: "Total complexity within acceptable bounds"
+      - pivot_readiness: "Scope preserves ability to pivot"
+      - measurement_defined: "Each feature has defined success metrics"
+      - minimum_viable: "Truly minimum while still viable for learning"
+
+  risk:
+    name: "Risk Profile"
+    specialist: risk-assessor
+    weight: 1.5
+    criteria:
+      - data_fragility: "Data storage resilience and recovery"
+      - integration_fragility: "External dependency failure handling"
+      - scale_fragility: "Performance under stress"
+      - security_fragility: "Auth, data protection, privilege control"
+      - operational_fragility: "Deployment, monitoring, rollback"
+
+  ux:
+    name: "UX & Accessibility"
+    specialist: ux-validator
+    weight: 1.0
+    criteria:
+      - discoverability: "Users can find and understand features"
+      - feedback: "Every action has visible result"
+      - affordances: "Elements suggest how to use them"
+      - accessibility: "WCAG AA compliance"
+      - error_design: "Errors prevented by constraints, not messages"
+
+  architecture:
+    name: "Architecture Soundness"
+    specialist: architecture-reviewer
+    weight: 1.5
+    criteria:
+      - context_fit: "Architecture fits problem domain and team"
+      - pattern_applicability: "Patterns appropriate for scale and complexity"
+      - coupling: "Minimized unnecessary coupling"
+      - reversibility: "Decisions can be undone if wrong"
+      - evolutionary: "Architecture can evolve without rewrites"
+
+  release:
+    name: "Release Readiness"
+    specialist: release-readiness
+    weight: 1.0
+    criteria:
+      - quality_gates: "Tests, lint, types, build all pass"
+      - migration_safety: "Migrations reversible, no data loss"
+      - rollback_strategy: "Can rollback within 5 minutes"
+      - monitoring: "Health checks and alerting in place"
+      - batch_size: "Release scope is appropriately small"
+
+verdicts:
+  APPROVED:
+    condition: "average >= pass_threshold AND no blockers"
+    description: "Artifact validated. Ready for implementation."
+  NEEDS_REVISION:
+    condition: "average >= conditional_threshold AND no blockers"
+    description: "Address identified issues and re-validate."
+  BLOCKED:
+    condition: "average < conditional_threshold OR has blockers"
+    description: "Major concerns must be resolved before proceeding."
+  DEFERRED:
+    condition: "manually applied"
+    description: "Validation deferred to a later phase."
+
+absolute_blockers:
+  - "Any dimension scoring < 4.0"
+  - "No Invention violation (Constitution Article IV)"
+  - "Security fragility classified CRITICAL"
+  - "Irreversible migration without rollback plan"
+  - "No evidence for value risk (customers will use it)"
