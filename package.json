@@ -1,5 +1,5 @@
 {
-  "name": "@synkra/finance-dashboard",
+  "name": "finance-dashboard",
   "version": "1.0.0",
   "private": true,
   "description": "Personal Finance Dashboard - Control your finances with style",
